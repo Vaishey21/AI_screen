@@ -1,0 +1,20 @@
+{
+    "candidates": [
+        {
+            "candidate_id": 1,
+            "response": "I have worked on AI projects and deployed models."
+        },
+        {
+            "candidate_id": 2,
+            "response": "I have little experience with AI, but I am a fast learner."
+        },
+        {
+            "candidate_id": 3,
+            "response": "I have deep knowledge of NLP and computer vision."
+        },
+        {
+            "candidate_id": 4,
+            "response": "I can work on AI but have not deployed any models."
+        }
+    ]
+}

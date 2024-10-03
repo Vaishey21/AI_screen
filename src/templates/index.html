@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Ranking</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 90px;
+            border: 4px solid #ccc;
+            border-radius: 70px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            
+            text-align: center;
+            align-items: center;
+            
+        }
+       
+
+
+        
+        .candidate-input {
+            margin-bottom: 10px;
+        }
+        #ranked-results {
+            margin-top: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Candidate Ranking</h1>
+        <form id="candidate-form">
+            <div class="candidate-input">
+                <label for="candidateId">Candidate ID:</label>
+                <input type="number" id="candidateId" required>
+            </div>
+            <div class="candidate-input">
+                <label for="response">Response:</label>
+                <textarea id="response" rows="4" required></textarea>
+            </div>
+            <button type="submit">Add Candidate</button>
+        </form>
+
+        <h2>Submit Candidates</h2>
+        <button id="submitCandidates">Submit Candidates for Ranking</button>
+
+        <h2>Ranked Candidates</h2>
+        <div id="ranked-results"></div>
+    </div>
+
+    <script>
+        let candidates = [];
+
+        $('#candidate-form').on('submit', function(e) {
+            e.preventDefault();
+            const candidateId = $('#candidateId').val();
+            const response = $('#response').val();
+
+            candidates.push({
+                candidate_id: candidateId,
+                response: response
+            });
+
+            $('#candidateId').val('');
+            $('#response').val('');
+            alert('Candidate added! Total candidates: ' + candidates.length);
+        });
+
+        $('#submitCandidates').on('click', function() {
+            if (candidates.length === 0) {
+                alert('Please add at least one candidate before submitting.');
+                return;
+            }
+
+            $.ajax({
+                url: 'http://127.0.0.1:5000/rank',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ candidates: candidates }),
+                success: function(response) {
+                    $('#ranked-results').empty();
+                    response.forEach(candidate => {
+                        $('#ranked-results').append(
+                            `<div>Candidate ID: ${candidate.candidate_id}, Rank Score: ${candidate.score}</div>`
+                        );
+                    });
+                },
+                error: function(xhr) {
+                    alert('Error: ' + xhr.responseJSON.error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
