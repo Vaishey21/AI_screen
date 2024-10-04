@@ -1,0 +1,32 @@
+# Candidate Ranking System
+
+This project is a web-based application that ranks candidates based on their interview responses using a machine learning model. The system processes responses and predicts scores for each candidate, allowing them to be ranked accordingly.
+
+## Table of Contents
+
+- [Technologies Used](#technologies-used)
+- [Project Structure](#project-structure)
+- [How it Works](#how-it-works)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Output](#output)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Technologies Used
+
+- **Flask**: For building the web application.
+- **Pandas**: For data handling and processing.
+- **Scikit-learn**: For the machine learning pipeline and model.
+- **Pickle**: For saving and loading the trained model.
+- **NLTK**: For text preprocessing (tokenization and stopword removal).
+
+## How it Works
+
+1. **Home Page**:
+
+   - Users can input candidate responses through a web interface.
+
+2. **Ranking Candidates**:
+   - Responses are sent to the `/rank` endpoint via a POST request.
+   - The system preprocesses the responses, predicts scores using the trained model, and returns a ranked list of candidates.
